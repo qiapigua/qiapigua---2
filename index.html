@@ -2,1004 +2,223 @@
 <html lang="zh-CN">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
     <title>皮瓜软件站</title>
-    <!-- 字体加载 -->
-    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Ma+Shan+Zheng&family=Orbitron:wght@700&display=swap" rel="stylesheet">
-    <!-- Font Awesome -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    
     <style>
-        :root {
-            --glow-color: #9d4edd; /* 默认紫色 */
-        }
-        
-        /* 基础样式重置 */
-        * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
-
-        body {
-            min-height: 100vh;
-            background: #050514;
-            overflow-x: hidden;
-            padding: 0 10px 60px;
-            position: relative;
+        *{margin:0;padding:0;box-sizing:border-box;}
+        body{
+            width:100%;
+            min-height:100vh;
+            background: linear-gradient(145deg, #f6f8fc 0%, #edf1f8 50%, #f2f5fa 100%);
+            display:flex;
+            flex-direction:column;
+            align-items:center;
+            padding-top:130px;
+            font-family: -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"PingFang SC",sans-serif;
+            -webkit-font-smoothing: antialiased;
         }
 
-        #starry-sky {
-            position: fixed;
-            top: 0; left: 0; width: 100%; height: 100%;
-            background: 
-                radial-gradient(circle at top right, rgba(157, 78, 221, 0.1) 0%, transparent 40%),
-                radial-gradient(circle at bottom left, rgba(78, 121, 221, 0.1) 0%, transparent 30%),
-                #050514;
-            z-index: -1;
+        .title{
+            font-size:40px;
+            font-weight:700;
+            background: linear-gradient(90deg, #252a34, #4080ff, #252a34);
+            background-size: 200% 200%;
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            margin-bottom:80px;
+            letter-spacing:8px;
+            animation: titleShine 6s ease-in-out infinite;
+            text-shadow: 0 4px 20px rgba(64,128,255,0.15);
+        }
+        @keyframes titleShine{
+            0%,100%{background-position:0% 50%;}
+            50%{background-position:200% 50%;}
         }
 
-        /* 星空效果 */
-        .star {
-            position: absolute;
-            background-color: white;
-            border-radius: 50%;
-            animation: twinkle linear infinite;
-        }
-        .star.small { width: 1px; height: 1px; opacity: 0.7; }
-        .star.medium { width: 2px; height: 2px; opacity: 0.8; }
-        .star.large { width: 3px; height: 3px; opacity: 0.9; }
-
-        .meteor {
-            position: absolute;
-            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.8), transparent);
-            width: 150px; height: 1px;
-            transform-origin: right center;
-            z-index: 1;
-            opacity: 0;
+        .btn-wrapper{
+            width:82%;
+            max-width:330px;
+            display:flex;
+            flex-direction:column;
+            gap:26px;
         }
 
-        /* 动画定义 */
-        @keyframes twinkle {
-            0%, 100% { opacity: 0.5; transform: scale(0.8); }
-            50% { opacity: 1; transform: scale(1.2); }
-        }
-        @keyframes move {
-            0% { transform: translateX(0) scale(var(--scale)); }
-            100% { transform: translateX(-100vw) scale(var(--scale)); }
-        }
-        @keyframes meteor {
-            0% { transform: rotate(-30deg) translateX(0); opacity: 0; }
-            20%, 80% { opacity: 1; }
-            100% { transform: rotate(-30deg) translateX(-1000px); opacity: 0; }
-        }
-        @keyframes titleFadeIn {
-            0% { opacity: 0; transform: translateY(-20px) scale(0.9); text-shadow: 0 0 5px #fff; }
-            100% { opacity: 1; transform: translateY(0) scale(1); text-shadow: 0 0 10px #fff, 0 0 20px var(--glow-color), 0 0 30px var(--glow-color); }
-        }
-        @keyframes titlePulse {
-            0%, 100% { text-shadow: 0 0 10px #fff, 0 0 20px var(--glow-color), 0 0 30px var(--glow-color); transform: scale(1); }
-            50% { text-shadow: 0 0 15px #fff, 0 0 30px var(--glow-color), 0 0 45px var(--glow-color), 0 0 60px var(--glow-color); transform: scale(1.03); }
-        }
-        
-        /* 入场动画 */
-        @keyframes fadeIn {
-            0% { opacity: 0; transform: scale(0.8) translateY(10px); box-shadow: 0 0 5px var(--glow-color); }
-            50% { opacity: 0.6; transform: scale(1.05) translateY(-2px); box-shadow: 0 0 30px var(--glow-color); }
-            100% { opacity: 1; transform: scale(1) translateY(0); box-shadow: 0 0 15px var(--glow-color), 0 0 30px rgba(157, 78, 221, 0.6), inset 0 0 10px rgba(157, 78, 221, 0.5); }
-        }
-        
-        /* 数字入场动画 */
-        @keyframes numberFadeIn {
-            0% { opacity: 0; transform: translateY(10px) scale(0.8); text-shadow: none; }
-            50% { opacity: 0.6; transform: translateY(-2px) scale(1.1); text-shadow: 0 0 15px var(--glow-color); }
-            100% { opacity: 1; transform: translateY(0) scale(1); text-shadow: 0 0 5px var(--glow-color); }
-        }
-        
-        /* 数字脉动动画 */
-        @keyframes numberPulse {
-            0%, 100% { text-shadow: 0 0 5px var(--glow-color), 0 0 10px var(--glow-color); transform: translateY(-53%) scale(1); }
-            50% { text-shadow: 0 0 10px var(--glow-color), 0 0 20px var(--glow-color), 0 0 30px var(--glow-color); transform: translateY(-53%) scale(1.05); }
-        }
-        
-        /* 旋转动画 */
-        @keyframes spin { to { transform: rotate(360deg); } }
-        
-        /* 上下摇晃动画 */
-        @keyframes shake {
-            0%, 100% { transform: translateY(0); }
-            25% { transform: translateY(-5px); }
-            75% { transform: translateY(5px); }
+        .install-btn{
+            display:flex;
+            align-items:center;
+            justify-content:center;
+            width:100%;
+            height:64px;
+            padding:0;
+            text-align:center;
+            background: rgba(255,255,255,0.85);
+            color:#1a202c;
+            text-decoration:none;
+            border-radius:22px;
+            font-size:17px;
+            font-weight:600;
+            border:1px solid rgba(255,255,255,0.9);
+            box-shadow: 
+                0 4px 15px rgba(0,0,0,0.05),
+                0 8px 30px rgba(64,128,255,0.08),
+                inset 0 1px 0 rgba(255,255,255,0.9);
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            position:relative;
+            overflow:hidden;
         }
 
-        /* 标题和颜色选择器容器 */
-        .title-container {
-            display: flex;
-            align-items: center;
-            flex-wrap: wrap;
-            gap: 15px;
-            margin: 30px 0 40px 20px;
+        .install-btn::before{
+            content:'';
+            position:absolute;
+            top:0;
+            left:-100%;
+            width:100%;
+            height:100%;
+            background: linear-gradient(90deg,transparent,rgba(64,128,255,0.12),transparent);
+            transition:left 0.6s ease;
         }
-        
-        /* 标题样式 */
-        .site-title {
-            color: white;
-            font-size: clamp(2rem, 10vw, 3.5rem);
-            font-weight: bold;
-            font-family: 'Orbitron', sans-serif;
-            opacity: 0;
-            animation: titleFadeIn 1.5s ease forwards 0.3s, titlePulse 3s ease-in-out infinite 1.8s;
-            position: relative;
-            z-index: 10;
-            white-space: nowrap;
-            padding: 0 10px;
-            text-align: left;
-        }
-        .site-title::before, .site-title::after {
-            content: "";
-            display: inline-block;
-            width: clamp(20px, 6vw, 30px);
-            height: 2px;
-            background: linear-gradient(90deg, transparent, var(--glow-color), transparent);
-            margin: 0 5px;
-            vertical-align: middle;
-        }
-        
-        /* 颜色选择器样式 */
-        .color-selector {
-            display: flex;
-            gap: 8px;
-            align-items: center;
-            padding: 5px 10px;
-            background-color: rgba(0, 0, 0, 0.5);
-            border-radius: 20px;
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            opacity: 0;
-            animation: fadeIn 1.5s ease forwards 0.8s;
-        }
-        
-        .color-option {
-            width: 22px;
-            height: 22px;
-            border-radius: 50%;
-            cursor: pointer;
-            transition: transform 0.2s ease, box-shadow 0.2s ease;
-            border: 2px solid transparent;
-        }
-        
-        .color-option:hover {
-            transform: scale(1.2);
-            box-shadow: 0 0 8px currentColor;
-        }
-        
-        .color-option.active {
-            transform: scale(1.2);
-            border-color: white;
-            box-shadow: 0 0 10px currentColor;
-        }
-        
-        .color-red { background-color: #ff5f58; color: #ff5f58; }
-        .color-orange { background-color: #ffbd2e; color: #ffbd2e; }
-        .color-yellow { background-color: #ffff3f; color: #ffff3f; }
-        .color-green { background-color: #28c840; color: #28c840; }
-        .color-cyan { background-color: #00d7ff; color: #00d7ff; }
-        .color-blue { background-color: #165dff; color: #165dff; }
-        .color-purple { background-color: #9d4edd; color: #9d4edd; }
-
-        /* 按钮容器 */
-        .button-container {
-            max-width: 1400px;
-            margin: 0;
-            padding: 0 10px 40px;
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-            gap: 18px;
+        .install-btn:hover::before{
+            left:100%;
         }
 
-        .btn-wrapper {
-            position: relative;
-            display: flex;
-            justify-content: flex-start;
-            perspective: 1000px;
+        .install-btn:hover{
+            color:#4080ff;
+            transform: translateY(-6px) scale(1.02);
+            box-shadow: 
+                0 8px 25px rgba(64,128,255,0.18),
+                0 12px 40px rgba(64,128,255,0.12);
+            border-color:rgba(64,128,255,0.25);
+        }
+        .install-btn:active{
+            transform: translateY(-1px) scale(0.99);
+            box-shadow: 0 4px 12px rgba(64,128,255,0.15);
         }
 
-        .btn-number {
-            position: absolute;
-            left: clamp(10px, 2vw, 18px);
-            top: 22%;
-            width: clamp(34px, 10vw, 40px);
-            height: clamp(34px, 10vw, 40px);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            background: radial-gradient(circle, rgba(255, 255, 255, 0.1) 0%, rgba(15, 15, 35, 0.6) 70%);
-            border: 1px solid var(--glow-color);
-            border-radius: 50%;
-            color: #f0e6ff;
-            font-weight: bold;
-            font-size: clamp(1rem, 3vw, 1.2rem);
-            font-family: 'Orbitron', sans-serif;
-            z-index: 20;
-            opacity: 0;
-            box-shadow: 0 0 5px var(--glow-color), inset 0 0 3px rgba(255, 255, 255, 0.2);
-            transform: translateY(-53%);
-            animation-name: numberFadeIn !important;
+        .popup-mask{
+            position:fixed;
+            top:0;
+            left:0;
+            width:100%;
+            height:100%;
+            background:rgba(15,20,30,0.25);
+            backdrop-filter: blur(18px);
+            -webkit-backdrop-filter: blur(18px);
+            display:none;
+            align-items:center;
+            justify-content:center;
+            z-index:999;
+            animation: maskFade 0.3s ease;
+        }
+        @keyframes maskFade{
+            from{opacity:0;}
+            to{opacity:1;}
         }
 
-        .install-btn {
-            padding: clamp(14px, 5vw, 18px) clamp(20px, 15vw, 40px) clamp(14px, 5vw, 18px) clamp(50px, 18vw, 70px);
-            background: linear-gradient(145deg, rgba(15, 15, 35, 0.8), rgba(0, 0, 0, 0.6));
-            color: white;
-            border: 2px solid var(--glow-color);
-            border-radius: 16px;
-            font-size: clamp(1.1rem, 5vw, 24px);
-            font-weight: bold;
-            cursor: pointer;
-            z-index: 10;
-            text-decoration: none;
-            width: 100%;
-            max-width: 250px;
-            text-align: center;
-            font-family: 'Dancing Script', 'Ma Shan Zheng', cursive, sans-serif;
-            transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
-            opacity: 0;
-            position: relative;
-            overflow: hidden;
+        .popup-box{
+            width:94%;
+            max-width:440px;
+            height:75vh;
+            background:rgba(255,255,255,0.95);
+            border-radius:28px;
+            overflow:hidden;
+            display:flex;
+            flex-direction:column;
+            box-shadow: 
+                0 20px 60px rgba(0,0,0,0.12),
+                0 8px 24px rgba(64,128,255,0.1);
+            border:1px solid rgba(255,255,255,0.9);
+            animation: popupScale 0.35s cubic-bezier(0.175, 0.885, 0.32, 1.275);
         }
-        .install-btn i { margin-right: 8px; text-shadow: 0 0 10px rgba(255, 255, 255, 0.8); }
-        .install-btn:hover, .install-btn:focus {
-            box-shadow: 0 0 20px var(--glow-color), 0 0 40px rgba(183, 110, 247, 0.7), inset 0 0 15px rgba(183, 110, 247, 0.6);
-            transform: translateY(-2px) scale(1.02);
-            border-color: var(--glow-color);
-            color: #f0e6ff;
-            outline: none;
-            opacity: 1 !important;
-        }
-        .btn-wrapper:hover .btn-number, .btn-wrapper:focus-within .btn-number {
-            background: radial-gradient(circle, rgba(255, 255, 255, 0.2) 0%, rgba(15, 15, 35, 0.7) 70%);
-            border-color: var(--glow-color);
-            color: white;
-            box-shadow: 0 0 10px var(--glow-color), inset 0 0 3px rgba(255, 255, 255, 0.3);
-        }
-        .install-btn:active { 
-            opacity: 1 !important;
-            transform: translateY(-1px) scale(1.01);
-            box-shadow: 0 0 15px var(--glow-color), 0 0 30px rgba(183, 110, 247, 0.7);
+        @keyframes popupScale{
+            from{transform:scale(0.92);opacity:0;}
+            to{transform:scale(1);opacity:1;}
         }
 
-        /* 页脚装饰 */
-        .footer-decoration {
-            position: fixed;
-            bottom: 0; left: 0;
-            width: 100%; height: 60px;
-            background: linear-gradient(to top, rgba(157, 78, 221, 0.1), transparent);
-            z-index: 5;
+        .popup-head{
+            padding:20px 24px;
+            background: linear-gradient(135deg,#ffffff,#f8fafd);
+            color:#1a202c;
+            border-bottom:1px solid rgba(0,0,0,0.05);
+            display:flex;
+            justify-content:space-between;
+            align-items:center;
+            font-size:18px;
+            font-weight:600;
+            letter-spacing:1px;
         }
 
-        /* 提示框 */
-        .toast {
-            position: fixed;
-            top: 20px; left: 50%;
-            transform: translateX(-50%) translateY(-100px);
-            background-color: rgba(0, 0, 0, 0.8);
-            color: white;
-            padding: clamp(8px, 3vw, 12px) clamp(16px, 6vw, 24px);
-            border-radius: 8px;
-            border: 1px solid var(--glow-color);
-            box-shadow: 0 0 10px rgba(157, 78, 221, 0.5);
-            z-index: 100;
-            opacity: 0;
-            transition: all 0.3s ease;
-            font-size: clamp(0.9rem, 3vw, 1rem);
-            max-width: 90%;
-            text-align: center;
+        .close-btn{
+            border:none;
+            background: linear-gradient(135deg,#f0f4fb,#e8eef8);
+            color:#4080ff;
+            border-radius:14px;
+            padding:8px 18px;
+            cursor:pointer;
+            font-weight:600;
+            transition:0.3s ease;
+            box-shadow:0 2px 8px rgba(64,128,255,0.1);
         }
-        .toast.show { transform: translateX(-50%) translateY(0); opacity: 1; }
-
-        /* 浏览器窗口模拟 - 深色模式支持 */
-        .browser-window {
-            position: fixed;
-            top: 50%; left: 50%;
-            transform: translate(-50%, -50%) scale(0.8);
-            width: 90%; max-width: 800px; height: 80vh;
-            background-color: #fff;
-            border-radius: 10px;
-            box-shadow: 0 0 30px var(--glow-color);
-            z-index: 1000;
-            overflow: hidden;
-            opacity: 0;
-            pointer-events: none;
-            transition: all 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+        .close-btn:hover{
+            background: linear-gradient(135deg,#4080ff,#6399ff);
+            color:#fff;
+            box-shadow:0 4px 15px rgba(64,128,255,0.25);
+            transform:scale(1.05);
         }
-        .browser-window.active {
-            opacity: 1;
-            pointer-events: all;
-            transform: translate(-50%, -50%) scale(1);
-        }
-        /* 深色模式样式 */
-        .browser-window.dark-mode {
-            background-color: #1a1a2e;
-        }
-        .browser-window.dark-mode .browser-header {
-            background-color: #16213e;
-            border-bottom-color: #0f3460;
-        }
-        .browser-window.dark-mode .browser-address {
-            background-color: #0f3460;
-            border-color: #1a1a2e;
-            color: #e94560;
-        }
-        .browser-window.dark-mode .browser-address i {
-            color: #e94560;
-        }
-        .browser-window.dark-mode .browser-content {
-            background-color: #16213e;
-        }
-        .browser-window.dark-mode .browser-loading {
-            background-color: #16213e;
-            color: #e94560;
-        }
-        .browser-window.dark-mode .browser-loading p {
-            color: #ffffff;
+        .close-btn:active{
+            transform:scale(0.96);
         }
 
-        .browser-header {
-            height: 40px;
-            background-color: #f0f0f0;
-            padding: 0 15px;
-            display: flex;
-            align-items: center;
-            border-bottom: 1px solid #e0e0e0;
-            cursor: move;
-            transition: all 0.3s ease;
+        .popup-iframe{
+            flex:1;
+            width:100%;
+            border:none;
+            background:#fafbfd;
         }
-        .mode-buttons {
-            display: flex;
-            gap: 8px;
-            margin-right: 15px;
-        }
-        .mode-btn {
-            width: 12px; 
-            height: 12px;
-            border-radius: 50%;
-            cursor: pointer;
-            transition: transform 0.2s ease;
-            position: relative;
-        }
-        .mode-btn:hover {
-            transform: scale(1.2);
-        }
-        .mode-btn.light {
-            background-color: #28c840; /* 绿色 - 浅色模式 */
-        }
-        .mode-btn.dark {
-            background-color: #ff5f58; /* 红色 - 深色模式 */
-        }
-        .mode-btn.close {
-            background-color: #ffbd2e; /* 橙色 - 关闭 */
-        }
-        /* 模式按钮图标 */
-        .mode-btn::after {
-            content: '';
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            width: 6px;
-            height: 6px;
-            border-radius: 50%;
-            background-color: rgba(255, 255, 255, 0.7);
-        }
-        .mode-btn.dark::after {
-            background-color: rgba(255, 255, 255, 0.7);
-            box-shadow: -2px 0 0 rgba(255, 255, 255, 0.7);
-            border-radius: 50% 0 0 50%;
-            transform: translate(-30%, -50) rotate(0deg);
-        }
-
-        .browser-address {
-            flex: 1;
-            height: 26px;
-            background-color: #fff;
-            border-radius: 13px;
-            padding: 0 12px;
-            font-size: 12px;
-            display: flex;
-            align-items: center;
-            color: #555;
-            border: 1px solid #ddd;
-            overflow: hidden;
-            text-overflow: ellipsis;
-            white-space: nowrap;
-            transition: all 0.3s ease;
-        }
-        .browser-address i {
-            margin-right: 8px;
-            color: #999;
-            font-size: 10px;
-            transition: all 0.3s ease;
-        }
-        .browser-content {
-            width: 100%;
-            height: calc(100% - 40px);
-            background-color: #f9f9f9;
-            position: relative;
-            overflow: hidden;
-            transition: all 0.3s ease;
-        }
-        .browser-loading {
-            position: absolute;
-            top: 0; left: 0;
-            width: 100%; height: 100%;
-            background-color: #f9f9f9;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            z-index: 10;
-            transition: all 0.3s ease;
-        }
-        .loading-spinner {
-            width: 40px; height: 40px;
-            border: 3px solid rgba(157, 78, 221, 0.2);
-            border-radius: 50%;
-            border-top-color: var(--glow-color);
-            animation: spin 1s linear infinite;
-            margin-bottom: 15px;
-        }
-        .browser-iframe {
-            width: 100%; height: 100%;
-            border: none;
-            display: none;
-        }
-        .browser-backdrop {
-            position: fixed;
-            top: 0; left: 0;
-            width: 100%; height: 100%;
-            background-color: rgba(0, 0, 0, 0.7);
-            z-index: 999;
-            opacity: 0;
-            pointer-events: none;
-            transition: opacity 0.3s ease;
-        }
-        .browser-backdrop.active {
-            opacity: 1;
-            pointer-events: all;
-        }
-
-        /* 关闭按钮 */
-        .window-controls {
-            display: flex;
-            align-items: center;
-            margin-left: 30px;
-        }
-        .close-button {
-            width: 30px; height: 30px;
-            background-color: rgba(255, 95, 88, 0.8);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: white;
-            font-size: 16px;
-            cursor: pointer;
-            transition: all 0.2s ease;
-            border: none;
-            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
-        }
-        .close-button:hover { background-color: #ff5f58; transform: scale(1.05); }
-        .close-button:active { transform: scale(0.95); }
-
-        /* 响应式布局 */
-        @media (max-width: 360px) {
-            .title-container { margin: 15px 0 20px 10px; }
-            .site-title { font-size: clamp(1.5rem, 8vw, 2.5rem); }
-            .btn-wrapper { margin-bottom: 15px; }
-            .install-btn { padding-left: 45px; font-size: clamp(1.1rem, 7vw, 24px); }
-            .button-container { margin: 0 10px; grid-template-columns: 1fr; }
-        }
-        @media (max-width: 768px) {
-            .button-container { grid-template-columns: repeat(2, 1fr); }
-            .browser-window { width: 95%; height: 90vh; }
-            .browser-header { height: 50px; }
-            .browser-content { height: calc(100% - 50px); }
-        }
-        @media (min-width: 769px) and (max-width: 1024px) { .button-container { grid-template-columns: repeat(3, 1fr); } }
-        @media (min-width: 1025px) and (max-width: 1200px) { .button-container { grid-template-columns: repeat(4, 1fr); } }
-        @media (min-width: 1201px) { .button-container { grid-template-columns: repeat(5, 1fr); } }
     </style>
 </head>
 <body>
-    <div id="starry-sky"></div>
-    <div class="footer-decoration"></div>
-    <div class="toast">此按钮无效果</div>
+    <div class="title">皮瓜软件站</div>
 
-    <!-- 浏览器窗口模拟 -->
-    <div class="browser-backdrop"></div>
-    <div class="browser-window">
-        <div class="browser-header" id="draggable-header">
-            <div class="mode-buttons">
-                <div class="mode-btn light" title="浅色模式"></div>
-                <div class="mode-btn dark" title="深色模式"></div>
-                <div class="mode-btn close" title="关闭窗口"></div>
-            </div>
-            <div class="browser-address">
-                <i class="fas fa-globe"></i>
-                <span class="url-display">加载中...</span>
-            </div>
-            <div class="window-controls">
-                <button class="close-button">×</button>
-            </div>
-        </div>
-        <div class="browser-content">
-            <div class="browser-loading">
-                <div class="loading-spinner"></div>
-                <p>正在加载...</p>
-            </div>
-            <iframe class="browser-iframe"></iframe>
-        </div>
+    <div class="btn-wrapper">
+        <a href="https://www.123912.com/s/6IgiVv-SuLfA" class="install-btn">更多版本前往云盘</a>
+        <a href="javascript:openPopup('https://easylink.cc/ojvp99')" class="install-btn">1、皮瓜软件站1.0</a>
+        <a href="javascript:openPopup('https://easylink.cc/hap7qi')" class="install-btn">2、26巴黎自带连网人物</a>
+        <a href="javascript:openPopup('https://easylink.cc/sst4iw')" class="install-btn">3、皮瓜星空开罗2.0</a>
+        <a href="javascript:openPopup('https://easylink.cc/yfrzc9')" class="install-btn">4、花扇魔改双旦</a>
+        <a href="javascript:openPopup('hhttps://easylink.cc/9xg47h')" class="install-btn">5、皮瓜魔改国服洛阳</a>
+        <a href="javascript:openPopup('https://easylink.cc/enqsjp')" class="install-btn">6、皮瓜2.4w粉公益版本</a>
+        <a href="javascript:openPopup('https://easylink.cc/r6b1uv')" class="install-btn">7、老北京新触控</a>
+        <a href="javascript:openPopup('https://easylink.cc/dqcrlh')" class="install-btn">8、Eurfex圣彼得堡</a>
+        <a href="javascript:openPopup('https://easylink.cc/sx401p')" class="install-btn">9、皮瓜16.0联动凉茶</a>
+        <a href="javascript:openPopup('https://easylink.cc/1oj2o0')" class="install-btn">10、落日哥本哈根</a>
+        <a href="javascript:openPopup('https://easylink.cc/nj5l6h')" class="install-btn">11、老拉斯维加斯新触控</a>
     </div>
 
-    <div class="title-container">
-        <h1 class="site-title">皮瓜软件站</h1>
-        
-        <!-- 颜色选择器 -->
-        <div class="color-selector">
-            <div class="color-option color-red" data-color="#ff5f58" title="红色"></div>
-            <div class="color-option color-orange" data-color="#ffbd2e" title="橙色"></div>
-            <div class="color-option color-yellow" data-color="#ffff3f" title="黄色"></div>
-            <div class="color-option color-green" data-color="#28c840" title="绿色"></div>
-            <div class="color-option color-cyan" data-color="#00d7ff" title="青色"></div>
-            <div class="color-option color-blue" data-color="#165dff" title="蓝色"></div>
-            <div class="color-option color-purple active" data-color="#9d4edd" title="紫色"></div>
-        </div>
-    </div>
-    
-    <div class="button-container">
-         <div class="btn-wrapper">
-            <span class="btn-number">0</span>
-            <a href="https://www.123912.com/s/6IgiVv-SuLfA" class="install-btn direct-link"><i class="fas fa-download"></i>更多版本前往云盘</a>
-        </div>
-        <div class="btn-wrapper">
-            <span class="btn-number">1</span>
-            <a href="https://easylink.cc/ojvp99" class="install-btn"><i class="fas fa-download"></i>皮瓜软件站1.0</a>
-        </div>
-        
-        <div class="btn-wrapper">
-            <span class="btn-number">2</span>
-            <a href="https://easylink.cc/sst4iw" class="install-btn"><i class="fas fa-download"></i>皮瓜星空开罗2.0</a>
-        </div>
-        
-        <div class="btn-wrapper">
-            <span class="btn-number">3</span>
-            <a href="https://easylink.cc/yfrzc9" class="install-btn"><i class="fas fa-download"></i>花扇魔改双旦</a>
-        </div>
-        
-        <div class="btn-wrapper">
-            <span class="btn-number">4</span>
-            <a href="https://easylink.cc/9xg47h" class="install-btn"><i class="fas fa-download"></i>皮瓜魔改国服洛阳</a>
-        </div>
-        
-        <!-- 第六个按钮改为直接跳转，移除了阻止默认行为的逻辑 -->
-        <div class="btn-wrapper">
-            <span class="btn-number">5</span>
-            <a href="https://image.cursorhub.org/user-upload/1761132411567-a097769f-699d-47da-a471-3531417f87f9.html" class="install-btn direct-link"><i class="fas fa-download"></i>国服中国城练习(全人物滑板官服)</a>
-        </div>
-
-        <div class="btn-wrapper">
-            <span class="btn-number">6</span>
-            <a href="https://easylink.cc/hap7qi" class="install-btn"><i class="fas fa-download"></i>26巴黎自带联网人物</a>
-        </div>
-
-        <div class="btn-wrapper">
-            <span class="btn-number">7</span>
-            <a href="https://easylink.cc/enqsjp" class="install-btn"><i class="fas fa-download"></i>皮瓜2.4w粉公益版本</a>
-        </div>
-        
-        <div class="btn-wrapper">
-            <span class="btn-number">8</span>
-            <a href="https://easylink.cc/r6b1uv" class="install-btn"><i class="fas fa-download"></i>老北京新触控</a>
-        </div>
-
-        <div class="btn-wrapper">
-            <span class="btn-number">9</span>
-            <a href="https://easylink.cc/dqcrlh" class="install-btn"><i class="fas fa-download"></i>Eurfex圣彼得堡</a>
-        </div>
-
-        <div class="btn-wrapper">
-            <span class="btn-number">10</span>
-            <a href="https://easylink.cc/sx401p" class="install-btn"><i class="fas fa-download"></i>皮瓜16.0联动凉茶</a>
-        </div>
-        
-        <div class="btn-wrapper">
-            <span class="btn-number">11</span>
-            <a href="https://easylink.cc/1oj2o0" class="install-btn"><i class="fas fa-download"></i>落日哥本哈根</a>
-        </div>
-
-        <div class="btn-wrapper">
-            <span class="btn-number">12</span>
-            <a href="https://easylink.cc/nj5l6h" class="install-btn"><i class="fas fa-download"></i>老拉斯维加斯新触控</a>
-        </div>
-        
-        <div class="btn-wrapper">
-            <span class="btn-number">13</span>
-            <a href="https://example.com" class="install-btn"><i class="fas fa-download"></i>安装包</a>
+    <div class="popup-mask" id="popupMask">
+        <div class="popup-box">
+            <div class="popup-head">
+                <span id="popupTitle"></span>
+                <button class="close-btn" onclick="closePopup()">关闭</button>
+            </div>
+            <iframe class="popup-iframe" id="iframeView" src=""></iframe>
         </div>
     </div>
 
     <script>
-        // 元素获取与初始化
-        const sky = document.getElementById('starry-sky');
-        const starCount = window.innerWidth < 768 ? 50 : 100;
-        let meteorInterval, clickSound;
-        const toast = document.querySelector('.toast');
-        const browserWindow = document.querySelector('.browser-window');
-        const browserBackdrop = document.querySelector('.browser-backdrop');
-        const browserIframe = document.querySelector('.browser-iframe');
-        const browserLoading = document.querySelector('.browser-loading');
-        const urlDisplay = document.querySelector('.url-display');
-        const closeBtn = document.querySelector('.mode-btn.close');
-        const lightModeBtn = document.querySelector('.mode-btn.light');
-        const darkModeBtn = document.querySelector('.mode-btn.dark');
-        const closeButton = document.querySelector('.close-button');
-        const draggableHeader = document.getElementById('draggable-header');
-        const colorOptions = document.querySelectorAll('.color-option');
-        let isDragging = false, offsetX, offsetY;
-        const isMobile = window.innerWidth < 768;
-
-        // 初始化函数
-        function init() {
-            // 延迟加载音效
+        function openPopup(url,title){
+            document.getElementById('popupTitle').innerText = title;
+            document.getElementById('iframeView').src = url;
+            document.getElementById('popupMask').style.display = 'flex';
             setTimeout(() => {
-                const audio = new Audio();
-                audio.id = 'clickSound';
-                audio.preload = 'auto';
-                audio.innerHTML = '<source src="http://share.sunjiada.cn/data/music_23739392.mp3" type="audio/mpeg">';
-                document.body.appendChild(audio);
-                clickSound = audio;
-            }, 1000);
-            
-            // 初始化星星和事件
-            requestAnimationFrame(initStars);
-            setupButtonAnimations();
-            setupSequentialShakeAnimation();
-            setupButtonClickHandlers();
-            setupColorSelection(); // 初始化颜色选择功能
-            setupTouchEvents();
-            setupDragFunctionality();
-            bindModeSwitchEvents();
-            window.addEventListener('resize', resetBrowserPosition);
+                closePopup();
+            }, 1);
         }
-
-        // 星空效果
-        function createStar() {
-            const star = document.createElement('div');
-            star.classList.add('star');
-            
-            const sizeClass = window.innerWidth < 768 
-                ? (Math.random() > 0.8 ? 'medium' : 'small')
-                : (Math.random() > 0.7 ? 'large' : (Math.random() > 0.5 ? 'medium' : 'small'));
-            star.classList.add(sizeClass);
-
-            star.style.left = `${Math.random() * 100}vw`;
-            star.style.top = `${Math.random() * 100}vh`;
-
-            const twinkleDuration = sizeClass === 'large' ? Math.random() * 4 + 3 : 
-                                   (sizeClass === 'medium' ? Math.random() * 3 + 2 : Math.random() * 2 + 1);
-            const moveDuration = Math.random() * 60 + 30;
-            
-            star.style.animation = `twinkle ${twinkleDuration}s linear infinite, move ${moveDuration}s linear infinite`;
-            star.style.setProperty('--scale', Math.random() * 0.5 + 0.7);
-
-            setTimeout(() => star.remove(), moveDuration * 1000);
-            return star;
+        function closePopup(){
+            document.getElementById('popupMask').style.display = 'none';
         }
-
-        function createMeteor() {
-            const meteor = document.createElement('div');
-            meteor.classList.add('meteor');
-            
-            meteor.style.top = `${Math.random() * 30 + 10}%`;
-            meteor.style.right = `-${Math.random() * 200 + 100}px`;
-            const duration = window.innerWidth < 768 ? Math.random() * 0.8 + 0.7 : Math.random() * 1 + 1;
-            meteor.style.animation = `meteor ${duration}s linear forwards`;
-            
-            sky.appendChild(meteor);
-            setTimeout(() => meteor.remove(), 2000);
-        }
-
-        // 分批创建星星
-        function initStars() {
-            let created = 0;
-            const batchSize = 10;
-            const interval = setInterval(() => {
-                const toCreate = Math.min(batchSize, starCount - created);
-                for (let i = 0; i < toCreate; i++) {
-                    sky.appendChild(createStar());
-                    created++;
-                }
-                if (created >= starCount) clearInterval(interval);
-            }, 200);
-            
-            const meteorDelay = window.innerWidth < 768 ? Math.random() * 20000 + 8000 : Math.random() * 15000 + 5000;
-            scheduleMeteor(meteorDelay);
-        }
-
-        function scheduleMeteor(delay) {
-            meteorInterval = setTimeout(() => {
-                createMeteor();
-                const nextDelay = window.innerWidth < 768 ? Math.random() * 20000 + 8000 : Math.random() * 15000 + 5000;
-                scheduleMeteor(nextDelay);
-            }, delay);
-        }
-
-        // 点击星空效果
-        document.addEventListener('click', (e) => {
-            if (e.target.classList.contains('install-btn') || e.target.classList.contains('site-title') || e.target.classList.contains('color-option')) return;
-            
-            const clusterSize = window.innerWidth < 768 ? Math.floor(Math.random() * 2) + 1 : Math.floor(Math.random() * 3) + 1;
-            for (let i = 0; i < clusterSize; i++) {
-                const star = createStar();
-                const offsetX = (Math.random() - 0.5) * 40;
-                const offsetY = (Math.random() - 0.5) * 40;
-                star.style.left = `${e.clientX + offsetX}px`;
-                star.style.top = `${e.clientY + offsetY}px`;
-                sky.appendChild(star);
-            }
-        });
-
-        // 按钮入场动画
-        function setupButtonAnimations() {
-            document.querySelectorAll('.btn-wrapper').forEach((wrapper, index) => {
-                const delay = window.innerWidth < 768 ? 0.3 + (index * 0.15) : 0.5 + (index * 0.2);
-                const button = wrapper.querySelector('.install-btn');
-                const number = wrapper.querySelector('.btn-number');
-                
-                if (button) button.style.animation = `fadeIn 1.5s ease forwards ${delay}s`;
-                if (number) number.style.animation = `numberFadeIn 1.5s ease forwards ${delay}s, numberPulse 3s ease-in-out infinite ${delay + 1.5}s`;
-            });
-        }
-
-        // 按顺序添加上下摇晃动画
-        function setupSequentialShakeAnimation() {
-            const wrappers = document.querySelectorAll('.btn-wrapper');
-            const delayBetweenButtons = 0.15;
-            const animationDuration = 1.2;
-            const animationIterations = 3;
-            
-            wrappers.forEach((wrapper, index) => {
-                const startDelay = 2 + (index * delayBetweenButtons);
-                
-                wrapper.style.animation = `
-                    shake ${animationDuration}s ease-in-out ${animationIterations} forwards ${startDelay}s
-                `;
-            });
-
-            setTimeout(() => {
-                setupSequentialShakeAnimation();
-            }, 15000);
-        }
-
-        // 颜色选择功能
-        function setupColorSelection() {
-            colorOptions.forEach(option => {
-                option.addEventListener('click', function() {
-                    // 移除所有选项的active类
-                    colorOptions.forEach(opt => opt.classList.remove('active'));
-                    
-                    // 给当前选中的选项添加active类
-                    this.classList.add('active');
-                    
-                    // 获取颜色值
-                    const color = this.getAttribute('data-color');
-                    
-                    // 更新CSS变量
-                    document.documentElement.style.setProperty('--glow-color', color);
-                    
-                    // 显示提示
-                    const colorName = this.title;
-                    showToast(`已切换为${colorName}发光效果`);
-                    
-                    // 播放点击音效
-                    if (clickSound) {
-                        clickSound.currentTime = 0;
-                        clickSound.play().catch(e => console.log("无法播放音效:", e));
-                    }
-                });
-            });
-        }
-
-        // 按钮点击处理
-        function setupButtonClickHandlers() {
-            // 为非直接跳转的按钮添加事件处理
-            document.querySelectorAll('.install-btn:not(.direct-link)').forEach(button => {
-                button.addEventListener('click', function(e) {
-                    e.preventDefault();
-                    
-                    if (clickSound) {
-                        clickSound.currentTime = 0;
-                        clickSound.play().catch(e => console.log("无法播放音效:", e));
-                    }
-                    
-                    const url = this.getAttribute('href');
-                    if (url.includes('example.com')) {
-                        showToast('此按钮无效果');
-                    } else {
-                        openBrowserWindow(url);
-                    }
-                });
-            });
-
-            // 为直接跳转的按钮添加点击音效（不阻止默认行为）
-            document.querySelectorAll('.install-btn.direct-link').forEach(button => {
-                button.addEventListener('click', function() {
-                    if (clickSound) {
-                        clickSound.currentTime = 0;
-                        clickSound.play().catch(e => console.log("无法播放音效:", e));
-                    }
-                });
-            });
-        }
-
-        // 提示框
-        function showToast(message) {
-            toast.textContent = message;
-            toast.classList.add('show');
-            setTimeout(() => toast.classList.remove('show'), 2000);
-        }
-
-        // 触摸事件处理
-        function setupTouchEvents() {
-            document.querySelectorAll('.install-btn').forEach(button => {
-                button.addEventListener('touchstart', function() {
-                    this.focus();
-                });
-            });
-
-            // 颜色选择器触摸事件
-            colorOptions.forEach(option => {
-                option.addEventListener('touchstart', function(e) {
-                    e.preventDefault();
-                    this.click();
-                });
-            });
-
-            let touchStartX, touchStartY, initialX, initialY;
-            draggableHeader.addEventListener('touchstart', (e) => {
-                if (isMobile || e.target.closest('.close-button, .mode-btn')) return;
-                
-                isDragging = true;
-                const rect = browserWindow.getBoundingClientRect();
-                touchStartX = e.touches[0].clientX;
-                touchStartY = e.touches[0].clientY;
-                initialX = rect.left;
-                initialY = rect.top;
-                
-                draggableHeader.style.cursor = 'grabbing';
-                browserWindow.style.transition = 'none';
-            });
-            
-            document.addEventListener('touchmove', (e) => {
-                if (!isDragging || isMobile) return;
-                
-                e.preventDefault();
-                const dx = e.touches[0].clientX - touchStartX;
-                const dy = e.touches[0].clientY - touchStartY;
-                moveBrowserWindow(initialX + dx, initialY + dy);
-            }, { passive: false });
-            
-            document.addEventListener('touchend', endDrag);
-        }
-
-        // 浏览器窗口操作
-        function openBrowserWindow(url) {
-            browserWindow.classList.add('active');
-            browserBackdrop.classList.add('active');
-            
-            urlDisplay.textContent = url.length > 30 ? url.substring(0, 30) + '...' : url;
-            browserLoading.style.display = 'flex';
-            browserIframe.style.display = 'none';
-            browserIframe.src = url;
-            
-            browserIframe.onload = () => setTimeout(() => {
-                browserLoading.style.display = 'none';
-                browserIframe.style.display = 'block';
-            }, 500);
-            
-            browserIframe.onerror = () => browserLoading.innerHTML = '<p>加载失败，请重试</p>';
-        }
-
-        function closeBrowserWindow() {
-            browserWindow.classList.remove('active');
-            browserBackdrop.classList.remove('active');
-            
-            setTimeout(() => {
-                browserIframe.src = '';
-                browserLoading.innerHTML = '<div class="loading-spinner"></div><p>正在加载...</p>';
-                browserLoading.style.display = 'flex';
-                browserIframe.style.display = 'none';
-                
-                if (!isDragging) resetBrowserPosition();
-            }, 300);
-        }
-
-        // 模式切换功能
-        function switchToLightMode() {
-            browserWindow.classList.remove('dark-mode');
-            showToast('已切换到浅色模式');
-        }
-        
-        function switchToDarkMode() {
-            browserWindow.classList.add('dark-mode');
-            showToast('已切换到深色模式');
-        }
-
-        function resetBrowserPosition() {
-            browserWindow.style.left = browserWindow.style.top = '';
-            browserWindow.style.transform = 'translate(-50%, -50%) scale(0.8)';
-        }
-
-        function moveBrowserWindow(x, y) {
-            const windowWidth = browserWindow.offsetWidth;
-            const windowHeight = browserWindow.offsetHeight;
-            const maxX = window.innerWidth - windowWidth;
-            const maxY = window.innerHeight - windowHeight;
-            
-            const constrainedX = Math.max(0, Math.min(x, maxX));
-            const constrainedY = Math.max(0, Math.min(y, maxY));
-            
-            browserWindow.style.left = `${constrainedX}px`;
-            browserWindow.style.top = `${constrainedY}px`;
-            browserWindow.style.transform = 'scale(1)';
-        }
-
-        // 拖拽功能
-        function setupDragFunctionality() {
-            if (isMobile) {
-                draggableHeader.style.cursor = 'default';
-                return;
-            }
-            
-            draggableHeader.addEventListener('mousedown', (e) => {
-                if (e.target.closest('.close-button, .mode-btn')) return;
-                
-                isDragging = true;
-                const rect = browserWindow.getBoundingClientRect();
-                offsetX = e.clientX - rect.left;
-                offsetY = e.clientY - rect.top;
-                
-                draggableHeader.style.cursor = 'grabbing';
-                browserWindow.style.transition = 'none';
-            });
-
-            document.addEventListener('mousemove', (e) => {
-                if (!isDragging) return;
-                moveBrowserWindow(e.clientX - offsetX, e.clientY - offsetY);
-            });
-
-            ['mouseup', 'mouseleave'].forEach(event => {
-                document.addEventListener(event, endDrag);
-            });
-        }
-
-        function endDrag() {
-            if (isDragging) {
-                isDragging = false;
-                draggableHeader.style.cursor = 'move';
-                browserWindow.style.transition = 'all 0.5s cubic-bezier(0.34, 1.56, 0.64, 1)';
-            }
-        }
-
-        // 绑定模式切换和关闭事件
-        function bindModeSwitchEvents() {
-            // 模式切换按钮事件
-            lightModeBtn.addEventListener('click', switchToLightMode);
-            darkModeBtn.addEventListener('click', switchToDarkMode);
-            
-            // 关闭按钮事件
-            closeBtn.addEventListener('click', closeBrowserWindow);
-            browserBackdrop.addEventListener('click', closeBrowserWindow);
-            closeButton.addEventListener('click', closeBrowserWindow);
-        }
-
-        // 初始化页面
-        document.addEventListener('DOMContentLoaded', init);
     </script>
 </body>
 </html>
