@@ -5,23 +5,51 @@
     <meta name="viewport" content="width=device-width,initial-scale=1.0">
     <title>皮瓜软件站</title>
     <style>
+        :root{
+            --bg-gradient-1: #f6f8fc;
+            --bg-gradient-2: #edf1f8;
+            --bg-gradient-3: #f2f5fa;
+            --card-bg: rgba(255,255,255,0.85);
+            --popup-bg: rgba(255,255,255,0.95);
+            --popup-head-bg: linear-gradient(135deg,#ffffff,#f8fafd);
+            --iframe-bg: #fafbfd;
+            --text-color: #1a202c;
+            --border-light: rgba(255,255,255,0.9);
+            --border-normal: rgba(0,0,0,0.05);
+        }
+        @media (prefers-color-scheme: dark) {
+            :root{
+                --bg-gradient-1: #0f141e;
+                --bg-gradient-2: #161c29;
+                --bg-gradient-3: #111722;
+                --card-bg: rgba(30,38,54,0.85);
+                --popup-bg: rgba(22,28,41,0.95);
+                --popup-head-bg: linear-gradient(135deg,#1e2638,#171e2c);
+                --iframe-bg: #141a27;
+                --text-color: #e8edf7;
+                --border-light: rgba(70,85,110,0.35);
+                --border-normal: rgba(255,255,255,0.08);
+            }
+        }
+
         *{margin:0;padding:0;box-sizing:border-box;}
         body{
             width:100%;
             min-height:100vh;
-            background: linear-gradient(145deg, #f6f8fc 0%, #edf1f8 50%, #f2f5fa 100%);
+            background: linear-gradient(145deg, var(--bg-gradient-1) 0%, var(--bg-gradient-2) 50%, var(--bg-gradient-3) 100%);
             display:flex;
             flex-direction:column;
             align-items:center;
             padding-top:130px;
             font-family: -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"PingFang SC",sans-serif;
             -webkit-font-smoothing: antialiased;
+            transition: background 0.4s ease;
         }
 
         .title{
             font-size:40px;
             font-weight:700;
-            background: linear-gradient(90deg, #252a34, #4080ff, #252a34);
+            background: linear-gradient(90deg, #8892b0, #4080ff, #8892b0);
             background-size: 200% 200%;
             -webkit-background-clip: text;
             background-clip: text;
@@ -52,17 +80,17 @@
             height:64px;
             padding:0;
             text-align:center;
-            background: rgba(255,255,255,0.85);
-            color:#1a202c;
+            background: var(--card-bg);
+            color:var(--text-color);
             text-decoration:none;
             border-radius:22px;
             font-size:17px;
             font-weight:600;
-            border:1px solid rgba(255,255,255,0.9);
-            box-shadow: 
+            border:1px solid var(--border-light);
+            box-shadow:
                 0 4px 15px rgba(0,0,0,0.05),
                 0 8px 30px rgba(64,128,255,0.08),
-                inset 0 1px 0 rgba(255,255,255,0.9);
+                inset 0 1px 0 rgba(255,255,255,0.06);
             transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
             backdrop-filter: blur(10px);
             -webkit-backdrop-filter: blur(10px);
@@ -87,7 +115,7 @@
         .install-btn:hover{
             color:#4080ff;
             transform: translateY(-6px) scale(1.02);
-            box-shadow: 
+            box-shadow:
                 0 8px 25px rgba(64,128,255,0.18),
                 0 12px 40px rgba(64,128,255,0.12);
             border-color:rgba(64,128,255,0.25);
@@ -103,45 +131,40 @@
             left:0;
             width:100%;
             height:100%;
-            background:rgba(15,20,30,0.25);
+            background:rgba(15,20,30,0.45);
             backdrop-filter: blur(18px);
             -webkit-backdrop-filter: blur(18px);
             display:none;
             align-items:center;
             justify-content:center;
             z-index:999;
-            animation: maskFade 0.3s ease;
         }
-        @keyframes maskFade{
-            from{opacity:0;}
-            to{opacity:1;}
+        .popup-mask.hidden-view{
+            opacity: 0;
+            pointer-events: none;
+            transform: translate(-9999px, -9999px);
         }
 
         .popup-box{
             width:94%;
             max-width:440px;
             height:75vh;
-            background:rgba(255,255,255,0.95);
+            background:var(--popup-bg);
             border-radius:28px;
             overflow:hidden;
             display:flex;
             flex-direction:column;
-            box-shadow: 
-                0 20px 60px rgba(0,0,0,0.12),
+            box-shadow:
+                0 20px 60px rgba(0,0,0,0.25),
                 0 8px 24px rgba(64,128,255,0.1);
-            border:1px solid rgba(255,255,255,0.9);
-            animation: popupScale 0.35s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-        }
-        @keyframes popupScale{
-            from{transform:scale(0.92);opacity:0;}
-            to{transform:scale(1);opacity:1;}
+            border:1px solid var(--border-light);
         }
 
         .popup-head{
             padding:20px 24px;
-            background: linear-gradient(135deg,#ffffff,#f8fafd);
-            color:#1a202c;
-            border-bottom:1px solid rgba(0,0,0,0.05);
+            background: var(--popup-head-bg);
+            color:var(--text-color);
+            border-bottom:1px solid var(--border-normal);
             display:flex;
             justify-content:space-between;
             align-items:center;
@@ -161,6 +184,11 @@
             transition:0.3s ease;
             box-shadow:0 2px 8px rgba(64,128,255,0.1);
         }
+        @media (prefers-color-scheme: dark) {
+            .close-btn{
+                background: linear-gradient(135deg,#26334e,#202b42);
+            }
+        }
         .close-btn:hover{
             background: linear-gradient(135deg,#4080ff,#6399ff);
             color:#fff;
@@ -175,7 +203,7 @@
             flex:1;
             width:100%;
             border:none;
-            background:#fafbfd;
+            background:var(--iframe-bg);
         }
     </style>
 </head>
@@ -184,41 +212,62 @@
 
     <div class="btn-wrapper">
         <a href="https://www.123912.com/s/6IgiVv-SuLfA" class="install-btn">更多版本前往云盘</a>
-        <a href="javascript:openPopup('https://easylink.cc/ojvp99')" class="install-btn">1、皮瓜软件站1.0</a>
-        <a href="javascript:openPopup('https://easylink.cc/kgdajh')" class="install-btn">2、26幻想节自带连网人物</a>
-        <a href="javascript:openPopup('https://easylink.cc/sst4iw')" class="install-btn">3、皮瓜星空开罗2.0</a>
-        <a href="javascript:openPopup('https://easylink.cc/yfrzc9')" class="install-btn">4、花扇魔改双旦</a>
-        <a href="javascript:openPopup('hhttps://easylink.cc/9xg47h')" class="install-btn">5、皮瓜魔改国服洛阳</a>
-        <a href="javascript:openPopup('https://easylink.cc/enqsjp')" class="install-btn">6、皮瓜2.4w粉公益版本</a>
-        <a href="javascript:openPopup('https://easylink.cc/r6b1uv')" class="install-btn">7、老北京新触控</a>
-        <a href="javascript:openPopup('https://easylink.cc/dqcrlh')" class="install-btn">8、Eurfex圣彼得堡</a>
-        <a href="javascript:openPopup('https://easylink.cc/sx401p')" class="install-btn">9、皮瓜16.0联动凉茶</a>
-        <a href="javascript:openPopup('https://easylink.cc/1oj2o0')" class="install-btn">10、落日哥本哈根</a>
-        <a href="javascript:openPopup('https://easylink.cc/nj5l6h')" class="install-btn">11、老拉斯维加斯新触控</a>
+        <a href="javascript:openPopup('https://easylink.cc/ojvp99','皮瓜软件站1.0')" class="install-btn">1、皮瓜软件站1.0</a>
+        <a href="javascript:openPopup('https://easylink.cc/kgdajh','26幻想节自带连网人物')" class="install-btn">2、26幻想节自带连网人物</a>
+        <a href="javascript:openPopup('https://easylink.cc/sst4iw','皮瓜星空开罗2.0')" class="install-btn">3、皮瓜星空开罗2.0</a>
+        <a href="javascript:openPopup('https://easylink.cc/yfrzc9','花扇魔改双旦')" class="install-btn">4、花扇魔改双旦</a>
+        <a href="javascript:openPopup('https://easylink.cc/9xg47h','皮瓜魔改国服洛阳')" class="install-btn">5、皮瓜魔改国服洛阳</a>
+        <a href="javascript:openPopup('https://easylink.cc/enqsjp','皮瓜2.4w粉公益版本')" class="install-btn">6、皮瓜2.4w粉公益版本</a>
+        <a href="javascript:openPopup('https://easylink.cc/r6b1uv','老北京新触控')" class="install-btn">7、老北京新触控</a>
+        <a href="javascript:openPopup('https://easylink.cc/dqcrlh','Eurfex圣彼得堡')" class="install-btn">8、Eurfex圣彼得堡</a>
+        <a href="javascript:openPopup('https://easylink.cc/sx401p','皮瓜16.0联动凉茶')" class="install-btn">9、皮瓜16.0联动凉茶</a>
+        <a href="javascript:openPopup('https://easylink.cc/1oj2o0','落日哥本哈根')" class="install-btn">10、落日哥本哈根</a>
+        <a href="javascript:openPopup('https://easylink.cc/nj5l6h','老拉斯维加斯新触控')" class="install-btn">11、老拉斯维加斯新触控</a>
     </div>
 
     <div class="popup-mask" id="popupMask">
         <div class="popup-box">
             <div class="popup-head">
                 <span id="popupTitle"></span>
-                <button class="close-btn" onclick="closePopup()">关闭</button>
+                <button class="close-btn" onclick="realClosePopup()">关闭</button>
             </div>
             <iframe class="popup-iframe" id="iframeView" src=""></iframe>
         </div>
     </div>
 
     <script>
+        const mask = document.getElementById('popupMask');
+        const iframe = document.getElementById('iframeView');
+        let autoCloseTimer = null;
+
         function openPopup(url,title){
+            clearTimeout(autoCloseTimer);
+            mask.classList.remove('hidden-view');
             document.getElementById('popupTitle').innerText = title;
-            document.getElementById('iframeView').src = url;
-            document.getElementById('popupMask').style.display = 'flex';
+            iframe.src = url;
+            mask.style.display = 'flex';
+
             setTimeout(() => {
-                closePopup();
+                mask.classList.add('hidden-view');
             }, 1);
+
+            autoCloseTimer = setTimeout(() => {
+                realClosePopup();
+            }, 3000);
         }
-        function closePopup(){
-            document.getElementById('popupMask').style.display = 'none';
+
+        function realClosePopup(){
+            clearTimeout(autoCloseTimer);
+            mask.classList.remove('hidden-view');
+            mask.style.display = 'none';
+            iframe.src = '';
         }
+
+        mask.addEventListener('click',function(e){
+            if(e.target === this){
+                realClosePopup();
+            }
+        })
     </script>
 </body>
 </html>
